@@ -1,7 +1,7 @@
 {
-  "name": "fcc-heroku-rest-api",
+  "name": "fcc-wubto-rest-api",
   "version": "0.0.1",
-  "description": "Express REST API for deploying an app to Heroku with Facebook Auth",
+  "description": "Express REST API for fcc-wubto-client-react",
   "main": "src/app.js",
   "scripts": {
     "prestart": "node ./dist/buildScripts/startMessage.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zklinger2000/fcc-heroku-rest-api.git"
+    "url": "git+https://github.com/zklinger2000/fcc-wubto-rest-api.git"
   },
   "keywords": [
     "Express",
@@ -29,9 +29,9 @@
   "author": "Zack Klinger",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zklinger2000/fcc-heroku-rest-api/issues"
+    "url": "https://github.com/zklinger2000/fcc-wubto-rest-api/issues"
   },
-  "homepage": "https://github.com/zklinger2000/fcc-heroku-rest-api#readme",
+  "homepage": "https://github.com/zklinger2000/fcc-wubto-rest-api#readme",
   "dependencies": {
     "babel-cli": "6.24.1",
     "babel-core": "6.25.0",
