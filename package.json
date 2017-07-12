@@ -1,0 +1,59 @@
+{
+  "name": "fcc-heroku-rest-api",
+  "version": "0.0.1",
+  "description": "Express REST API for deploying an app to Heroku with Facebook Auth",
+  "main": "src/app.js",
+  "scripts": {
+    "prestart": "node ./dist/buildScripts/startMessage.js",
+    "start": "node ./dist/buildScripts/nodeServer.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npm run babel:build",
+    "dev": "NODE_ENV=development nodemon src/buildScripts/nodeServer.js --exec babel-node",
+    "dev:start": "npm-run-all --parallel prestart dev lint:watch",
+    "babel:build": "./node_modules/.bin/babel src -d dist",
+    "lint": "esw src/buildScripts src/database src/routes src/app.js --color",
+    "lint:watch": "npm run lint -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zklinger2000/fcc-heroku-rest-api.git"
+  },
+  "keywords": [
+    "Express",
+    "REST",
+    "Heroku",
+    "Facebook",
+    "Authentication",
+    "Authorization"
+  ],
+  "author": "Zack Klinger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zklinger2000/fcc-heroku-rest-api/issues"
+  },
+  "homepage": "https://github.com/zklinger2000/fcc-heroku-rest-api#readme",
+  "dependencies": {
+    "babel-cli": "6.24.1",
+    "babel-core": "6.25.0",
+    "babel-preset-env": "1.6.0",
+    "bluebird": "3.5.0",
+    "body-parser": "1.17.2",
+    "chalk": "2.0.1",
+    "cors": "2.8.3",
+    "dotenv": "4.0.0",
+    "express": "4.15.3",
+    "express-session": "1.15.3",
+    "jsonwebtoken": "7.4.1",
+    "mongoose": "4.11.1",
+    "morgan": "1.8.2",
+    "passport": "0.3.2",
+    "passport-facebook": "2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "3.15.0",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-watch": "2.1.14",
+    "nodemon": "1.11.0",
+    "npm-run-all": "4.0.2"
+  }
+}
