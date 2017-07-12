@@ -10,7 +10,7 @@ const facebookStrategy = new Strategy({
     clientID: process.env.FB_CLIENT_ID,
     clientSecret: process.env.FB_CLIENT_SECRET,
     callbackURL: process.env.FB_LOGIN_CALLBACK,
-    profileFields: ['friends']
+    profileFields: ['friends', 'displayName']
   },
   function(accessToken, refreshToken, profile, cb) {
     // In this example, the user's Facebook profile is supplied as the user

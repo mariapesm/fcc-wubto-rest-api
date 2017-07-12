@@ -23,7 +23,7 @@ const routes = (app) => {
   //===========
 
   app.get('/login/facebook',
-    passport.authenticate('facebook', { scope: ['user_friends'] }));
+    passport.authenticate('facebook', { scope: ['user_friends', 'public_profile'] }));
 
   app.get('/login/facebook/return',
     passport.authenticate('facebook', { failureRedirect: `${process.env.WEB_APP_URL}/login` }),
