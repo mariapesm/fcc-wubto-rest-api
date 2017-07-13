@@ -1,7 +1,8 @@
 "use strict";
-import facebook from './controllers/facebook';
 import passportService from './services/passport'; // eslint-disable-line no-unused-vars
 import passport from 'passport';
+import facebook from './controllers/facebook';
+import yelp from './controllers/yelp';
 
 const routes = (app) => {
   // Server index page
@@ -36,6 +37,15 @@ const routes = (app) => {
   });
 
   app.get('/webhook', facebook.webhook);
+
+  //=======
+  // Yelp
+  //=======
+
+  app.get('/yelp/access', yelp.refreshAccessToken);
+
+  app.post('/yelp/search', yelp.search);
+
 };
 
 export default routes;
