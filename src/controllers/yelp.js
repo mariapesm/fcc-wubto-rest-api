@@ -1,6 +1,7 @@
 "use strict";
 import yelp from 'yelp-fusion';
 import YelpToken from '../models/YelpToken';
+import User from '../models/User';
 // import jwt from 'jsonwebtoken';
 
 const yelpController = {
@@ -60,6 +61,21 @@ const yelpController = {
       })
       .then(response => {
         res.status(200).send(response.jsonBody);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  },
+
+  confirm: (req, res) => {
+    User.findOneAndUpdate({ '_id': req.user._id },
+      { $set: { place: req.params.id }},
+      { new: true })
+      .then(user => {
+        res.status(200).json({
+          place: user.place,
+          displayName: user.facebook.displayName
+        });
       })
       .catch(err => {
         res.status(500).send(err);

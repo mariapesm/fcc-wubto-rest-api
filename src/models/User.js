@@ -13,6 +13,9 @@ const userSchema = new Schema({
       type: String
     },
   },
+  place: {
+    type: String
+  },
   metaData: {
     createdAt: {
       type: Date,

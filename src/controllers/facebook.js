@@ -48,7 +48,8 @@ const facebookController = {
         if (user) {
           res.status(200).json({
             token,
-            displayName: user.facebook.displayName
+            displayName: user.facebook.displayName,
+            place: user.place
           });
         }
       })

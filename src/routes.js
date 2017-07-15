@@ -46,6 +46,8 @@ const routes = (app) => {
 
   app.post('/yelp/search', yelp.search);
 
+  app.post('/yelp/confirm/:id', facebook.requireAuth, yelp.confirm);
+
 };
 
 export default routes;
