@@ -13,7 +13,7 @@ const facebookController = {
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err && err.name === 'TokenExpiredError') {
-        res.status(401).send('Expired session');
+        res.status(401).send(err);
       } else if (err) {
         res.status(500).send(err);
       } else {

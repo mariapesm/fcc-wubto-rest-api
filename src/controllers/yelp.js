@@ -63,13 +63,22 @@ const yelpController = {
         res.status(200).send(response.jsonBody);
       })
       .catch(err => {
-        res.status(500).send(err);
+        const body = JSON.parse(err.response.body);
+        res.status(err.response.statusCode).send({
+          name: body.error.code,
+          message: body.error.description
+        });
       });
   },
 
   confirm: (req, res) => {
     User.findOneAndUpdate({ '_id': req.user._id },
-      { $set: { place: req.params.id }},
+      { $set: {
+        place: {
+          id: req.params.id,
+          expiresAt: new Date(Date.now() + (60000 * 60 * 18))
+        }
+      }},
       { new: true })
       .then(user => {
         res.status(200).json({
