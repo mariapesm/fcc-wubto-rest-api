@@ -19,7 +19,10 @@ const userSchema = new Schema({
     },
     expiresAt: {
       type: Date,
-      required: true
+    },
+    name: {
+      type: String,
+      default: ''
     }
   },
   metaData: {

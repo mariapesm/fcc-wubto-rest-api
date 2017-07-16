@@ -72,13 +72,18 @@ const yelpController = {
   },
 
   confirm: (req, res) => {
+    const oldId = req.user.place.id;
+    const newId = req.params.id;
+
+    // Set place id if new, toggle off if not
+    const place = {
+      id: (oldId === newId ? '' : newId),
+      expiresAt: (oldId === newId ? '' : new Date(Date.now() + (60000 * 60 * 18))),
+      name: (oldId === newId ? '' : req.body.place.name)
+    };
+
     User.findOneAndUpdate({ '_id': req.user._id },
-      { $set: {
-        place: {
-          id: req.params.id,
-          expiresAt: new Date(Date.now() + (60000 * 60 * 18))
-        }
-      }},
+      { $set: { place }},
       { new: true })
       .then(user => {
         res.status(200).json({
