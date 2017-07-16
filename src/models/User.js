@@ -14,7 +14,13 @@ const userSchema = new Schema({
     },
   },
   place: {
-    type: String
+    id: {
+      type: String
+    },
+    expiresAt: {
+      type: Date,
+      required: true
+    }
   },
   metaData: {
     createdAt: {
