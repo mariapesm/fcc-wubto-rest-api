@@ -12,6 +12,10 @@ const userSchema = new Schema({
     displayName: {
       type: String
     },
+    friends: [{
+      type: Schema.ObjectId,
+      ref: 'user'
+    }]
   },
   place: {
     id: {

@@ -18,10 +18,18 @@ const facebookController = {
         res.status(500).send(err);
       } else {
         User.findOne({ _id: decoded._id })
+          .populate('facebook.friends')
           .lean()
           .exec()
           .then(user => {
             if (user) {
+              // Sanitize user's facebook friends data
+              user.facebook.friends = user.facebook.friends.map(friend => {
+                return {
+                  facebook: friend.facebook,
+                  place: friend.place
+                };
+              });
               req.user = user;
               req.token = token;
               next();
@@ -42,14 +50,21 @@ const facebookController = {
     const token = req.token;
 
     User.findOne({ _id: authUser._id })
+      .populate('facebook.friends')
       .lean()
       .then(user => {
-        // If a user DOES exist, return token and whitelisted user info
+        // If a user DOES exist, return token and sanitized user info
         if (user) {
           res.status(200).json({
             token,
             displayName: user.facebook.displayName,
-            place: user.place
+            place: user.place,
+            friends: user.facebook.friends.map(friend => {
+              return {
+                facebook: friend.facebook,
+                place: friend.place
+              };
+            })
           });
         }
       })
@@ -68,6 +83,7 @@ const facebookController = {
       res.sendStatus(403);
     }
   }
+
 };
 
 export default facebookController;

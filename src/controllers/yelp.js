@@ -47,7 +47,6 @@ const yelpController = {
         // TODO: Error checking
         return accessToken = tokens[0].access_token;
       })
-      // TODO: Check expiration
       .then(token => {
         const client = yelp.client(token);
 
@@ -85,10 +84,17 @@ const yelpController = {
     User.findOneAndUpdate({ '_id': req.user._id },
       { $set: { place }},
       { new: true })
+      .populate('facebook.friends')
       .then(user => {
         res.status(200).json({
           place: user.place,
-          displayName: user.facebook.displayName
+          displayName: user.facebook.displayName,
+          friends: user.facebook.friends.map(friend => {
+            return {
+              facebook: friend.facebook,
+              place: friend.place
+            };
+          })
         });
       })
       .catch(err => {

@@ -1,3 +1,4 @@
+"use strict";
 import passport from 'passport';
 // const Strategy = require('passport-facebook').Strategy;
 import { Strategy } from 'passport-facebook';
@@ -18,9 +19,29 @@ const facebookStrategy = new Strategy({
     // be associated with a user record in the application's database, which
     // allows for account linking and authentication with other identity
     // providers.
-    console.log(profile._json);
-    // See if a user with the given Google id exists
-    User.findOne({ 'facebook.id': profile.id })
+
+    // Get friends list with their places info
+    const { friends } = profile._json;
+    const idArray = friends.data.map(friend => friend.id);
+
+    User.find({
+      'facebook.id': {
+        $in: idArray
+      }
+    })
+      .lean()
+      .then(users => {
+        return users.map(user => {
+          return { _id: user._id };
+        });
+      })
+      .then(friendsIdArray => {
+        // See if a user with the given Facebook id exists
+        return User.findOneAndUpdate({ 'facebook.id': profile.id },
+          { 'facebook.friends': friendsIdArray },
+          { new: true })
+          .populate('facebook.friends');
+      })
       .then(user => {
         // If a user DOES exist, return token and whitelisted user info
         if (user) {
@@ -30,15 +51,18 @@ const facebookStrategy = new Strategy({
             token: jwt.sign({
               exp: Math.floor(Date.now() / 1000) + (60 * 60),
               _id: user._id,
-              displayName: user.facebook.displayName
+              displayName: user.facebook.displayName,
+              friends: user.facebook.friends
             }, process.env.JWT_SECRET)
           });
-        } else {
+        }
+        else {
           // Else, create new user and return token
           const newUser = new User({
             facebook: {
               id: profile.id,
-              displayName: profile.displayName
+              displayName: profile.displayName,
+              friends: friendsArray
             }
           });
           return newUser
@@ -48,7 +72,8 @@ const facebookStrategy = new Strategy({
                 token: jwt.sign({
                   exp: Math.floor(Date.now() / 1000) + (60 * 60),
                   _id: user._id,
-                  displayName: user.facebook.displayName
+                  displayName: user.facebook.displayName,
+                  friends: user.facebook.friends
                 }, process.env.JWT_SECRET)
               });
             })
@@ -57,7 +82,6 @@ const facebookStrategy = new Strategy({
       })
       .catch(cb);
   });
-
 
 // Configure Passport authenticated session persistence.
 //
