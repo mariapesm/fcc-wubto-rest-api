@@ -1,9 +1,8 @@
+require('dotenv').config({ silent: true });
 import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import session from 'express-session';
 import cors from 'cors';
-import passport from 'passport';
 import routes from './routes';
 import connectMongo from './databases/connectMongo';
 
@@ -19,17 +18,6 @@ app.use(morgan('combined'));
 // Middleware parses incoming requests into JSON
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ type: '*/*' }));
-
-// Express session middleware
-app.use(session({
-  secret: 'this is a secret',
-  resave: true,
-  saveUninitialized: true
-}));
-
-// Passport Setup
-app.use(passport.initialize());
-app.use(passport.session());
 
 // CORS Middleware for handling requests coming from different IPs/ports
 app.use(cors());

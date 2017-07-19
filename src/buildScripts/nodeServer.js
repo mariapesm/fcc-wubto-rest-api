@@ -3,7 +3,6 @@
 /* eslint-disable import/default */
 import chalk from 'chalk';
 import app from '../app.js'; // This initializes the Express application
-require('dotenv').config({ silent: true });
 
 const port = process.env.PORT || 5000;
 const server = app.listen(port, err => {
