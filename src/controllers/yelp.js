@@ -76,7 +76,7 @@ const yelpController = {
     // Set place id if new, toggle off if not
     const place = {
       id: (oldId === newId ? '' : newId),
-      expiresAt: (oldId === newId ? '' : new Date(Date.now() + (60000 * 60 * 24 * 3650))), // 10 years from now...
+      expiresAt: (oldId === newId ? '' : new Date(Date.now() + (60000 * 60 * 1800))),
       name: (oldId === newId ? '' : req.body.place.name),
       image_url: (oldId === newId ? '' : req.body.place.image_url),
     };
