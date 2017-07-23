@@ -40,16 +40,15 @@ const yelpController = {
   },
 
   search: (req, res) => {
-    let accessToken;
-
+    // Get access token for Yelp API
     YelpToken.find()
       .then(tokens => {
         // TODO: Error checking
-        return accessToken = tokens[0].access_token;
+        return tokens[0].access_token;
       })
       .then(token => {
         const client = yelp.client(token);
-
+        // Search Yelp for places
         return client.search({
           term: req.body.term,
           categories: req.body.categories,
@@ -78,7 +77,8 @@ const yelpController = {
     const place = {
       id: (oldId === newId ? '' : newId),
       expiresAt: (oldId === newId ? '' : new Date(Date.now() + (60000 * 60 * 18))),
-      name: (oldId === newId ? '' : req.body.place.name)
+      name: (oldId === newId ? '' : req.body.place.name),
+      image_url: (oldId === newId ? '' : req.body.place.image_url),
     };
 
     User.findOneAndUpdate({ '_id': req.user._id },
@@ -99,6 +99,30 @@ const yelpController = {
       })
       .catch(err => {
         res.status(500).send(err);
+      });
+  },
+
+  getPlaceById: (req, res) => {
+    // Get access token for Yelp API
+    YelpToken.find()
+      .then(tokens => {
+        // TODO: Error checking
+        return tokens[0].access_token;
+      })
+      .then(token => {
+        const client = yelp.client(token);
+        // Search Yelp for a place by id
+        return client.business(req.params.id);
+      })
+      .then(response => {
+        res.status(200).send(response.jsonBody);
+      })
+      .catch(err => {
+        const body = JSON.parse(err.response.body);
+        res.status(err.response.statusCode).send({
+          name: body.error.code,
+          message: body.error.description
+        });
       });
   }
 
