@@ -8,6 +8,8 @@ const facebookController = {
     const facebookUser = req.body;
     const idArray = facebookUser.friends.data.map(friend => friend.id);
 
+    console.log(facebookUser);
+
     // See if User already exists
     User.findOne({ 'facebook.id': facebookUser.id })
       // Find or Create
@@ -22,7 +24,8 @@ const facebookController = {
           const newUser = new User({
             facebook: {
               id: facebookUser.id,
-              displayName: facebookUser.name
+              displayName: facebookUser.name,
+              picture: facebookUser.picture.data.url
             }
           });
           return newUser.save();

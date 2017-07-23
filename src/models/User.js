@@ -12,6 +12,9 @@ const userSchema = new Schema({
     displayName: {
       type: String
     },
+    picture: {
+      type: String
+    },
     friends: [{
       type: Schema.ObjectId,
       ref: 'user'
@@ -25,6 +28,10 @@ const userSchema = new Schema({
       type: Date,
     },
     name: {
+      type: String,
+      default: ''
+    },
+    image_url: {
       type: String,
       default: ''
     }
