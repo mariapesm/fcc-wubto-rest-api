@@ -56,7 +56,7 @@ const facebookController = {
       .then(user => {
         res.status(200).send({
           token: jwt.sign({
-            exp: Math.floor(Date.now() / 1000) + (60 * 60),
+            exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 30),
             _id: user._id
           }, process.env.JWT_SECRET),
           user: {
